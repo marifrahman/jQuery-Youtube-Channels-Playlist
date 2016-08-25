@@ -1,5 +1,6 @@
 jQuery-Youtube-Channels-Playlist
 ================================
+<h2> Playlist ID can also be used as the same way </h2>
 <h2>Update youtube API v3</h2>
 <p>YouTube device support message<br>
 https://developers.google.com/youtube/v3/getting-started</p><br>
@@ -45,5 +46,4 @@ https://developers.google.com/youtube/v3/getting-started</p><br>
     });
 &lt;/script&gt;</pre>
 </p>
-
 <h3><a href="http://ibacor.com/demo/jquery-youtube-channels-playlist/">DEMO</a></h3>
