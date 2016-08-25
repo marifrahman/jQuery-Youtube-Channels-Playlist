@@ -3,6 +3,7 @@
 * Coded by Ican Bachors 2014.
 * http://ibacor.com/labs/jquery-youtube-channels-playlist/
 * Updates will be posted to this site.
+* Update by @marifrahman : changed the js to accomodate PlayList as well.
 ******************************************************/
 
 $.fn.ycp = function(m, n, o) {
@@ -10,7 +11,7 @@ $.fn.ycp = function(m, n, o) {
     $(this).each(function(i, a) {
         var b = ($(this).attr('id') != null ? '#' + $(this).attr('id') : '.' + $(this).attr('class')),
             channel = $(this).data('ycp'),
-            tipe = (channel.substring(0, 2) == 'UC' ? 'id' : 'forUsername'),
+            tipe = (channel.substring(0, 2) == 'UC' ? 'id' : ((channel.substring(0, 2) == 'PL') ? 'playlistId' : 'forUsername')),
             html = '<div class="ycp">' + '<div class="unit kenca">' + '<div id="ycp_vid_play' + i + '"></div>' + '</div>' + '<div class = "unit katuhu">' + '<div id="ycp_youtube_channels' + i + '"></div>' + '</div>' + '</div>';
         $(this).html(html);
         ycp_play(channel, tipe, i, b)
@@ -18,12 +19,12 @@ $.fn.ycp = function(m, n, o) {
 
     function ycp_play(c, d, e, f) {
         $.ajax({
-            url: 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&' + d + '=' + c + '&key=' + o,
+            url: (d != 'playlistId')? 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&' + d + '=' + c + '&key=' + o:'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=' + c + '&key=' + o,
             crossDomain: true,
             dataType: 'json'
         }).done(function(a) {
-            var b = a.items[0].contentDetails.relatedPlaylists.uploads,
-                chid = a.items[0].id,
+            var b = (d != 'playlistId')? a.items[0].contentDetails.relatedPlaylists.uploads: c,
+                chid = (d != 'playlistId')? a.items[0].id:a.items[0].snippet.resourceId.videoId,
                 pageToken = '',
                 autop = 0;
             if (n) {
